@@ -1,0 +1,29 @@
+# ~/.ssh/config — Template for Hetzner VPS (tmux control plane) + Vast.ai GPU
+# INSTRUCTIONS:
+# 1) Replace <> placeholders with your real values.
+# 2) Save this as ~/.ssh/config on your laptop and run: chmod 600 ~/.ssh/config
+# 3) Ensure your SSH key (~/.ssh/id_ed25519) is added to both servers.
+# 4) Test: `ssh vps` then `ssh vast`.
+
+Host vps
+  HostName <hetzner-public-ip>
+  User <vps-username>
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 30
+  ServerAliveCountMax 4
+
+Host vast
+  HostName <vast-public-ip-or-hostname>
+  Port <vast-ssh-port>
+  User <vast-user>           # often 'root'
+  ProxyJump vps
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 30
+  ServerAliveCountMax 4
+
+# Optional: direct access without ProxyJump
+# Host vast-direct
+#   HostName <vast-public-ip-or-hostname>
+#   Port <vast-ssh-port>
+#   User <vast-user>
+#   IdentityFile ~/.ssh/id_ed25519

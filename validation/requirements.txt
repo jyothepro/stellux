@@ -1,0 +1,31 @@
+# requirements.txt — Minimal deps for the Parameter Allocation Experiments
+# NOTE: If you use a CUDA PyTorch Docker image (e.g., pytorch/pytorch:2.3.0-cuda11.8-cudnn8-runtime),
+#       DO NOT install torch here; it is preinstalled in the image.
+#       For local CPU runs, uncomment torch/torchvision/torchaudio below with matching versions.
+
+accelerate==0.33.0
+transformers==4.43.3
+datasets==2.20.0
+tokenizers==0.19.1
+evaluate==0.4.2
+tiktoken==0.7.0
+sentencepiece==0.2.0
+pyyaml==6.0.2
+matplotlib==3.9.1
+pandas==2.2.2
+rich==13.7.1
+
+# Logging/monitoring (pick one or both)
+tensorboard==2.17.0
+wandb==0.17.5
+
+# Dev tools (optional)
+pytest==8.2.1
+ruff==0.6.8
+black==24.8.0
+isort==5.13.2
+
+# Local CPU runs (optional): uncomment if NOT using a PyTorch image
+# torch==2.3.0
+# torchvision==0.18.0
+# torchaudio==2.3.0
