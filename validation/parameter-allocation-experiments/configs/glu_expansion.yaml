@@ -1,0 +1,58 @@
+# GLU expansion factor sweep configuration
+# Tests different FFN/GLU expansion ratios at fixed total parameters
+
+defaults:
+  - base_config
+
+model:
+  total_params: 10_000_000
+  vocab_size: 16_000
+  embedding_ratio: 0.35  # Use best from embedding sweep
+
+experiments:
+  - name: glu2x
+    description: "2.0x GLU expansion"
+    model:
+      glu_expansion: 2.0
+    training:
+      output_dir: "./outputs/glu2x"
+      run_name: "glu2x"
+    
+  - name: glu266x
+    description: "2.66x GLU expansion (SLIM target)"
+    model:
+      glu_expansion: 2.66
+    training:
+      output_dir: "./outputs/glu266x"
+      run_name: "glu266x"
+    
+  - name: glu3x
+    description: "3.0x GLU expansion"
+    model:
+      glu_expansion: 3.0
+    training:
+      output_dir: "./outputs/glu3x"
+      run_name: "glu3x"
+    
+  - name: glu4x
+    description: "4.0x GLU expansion (standard)"
+    model:
+      glu_expansion: 4.0
+    training:
+      output_dir: "./outputs/glu4x"
+      run_name: "glu4x"
+
+# Shared settings for all experiments
+training:
+  total_tokens: 50_000_000
+  batch_size: 256
+  eval_steps: 1000
+  save_steps: 5000
+  early_stopping_threshold: 0.5
+
+evaluation:
+  metrics:
+    - "perplexity"
+    - "smallbench_accuracy"
+  profile_latency: true
+  profile_memory: true

@@ -1,0 +1,49 @@
+# Embedding ratio sweep configuration
+# Tests different allocations of parameters to embeddings vs backbone
+
+defaults:
+  - base_config
+
+model:
+  total_params: 10_000_000
+  vocab_size: 16_000
+
+experiments:
+  - name: emb25
+    description: "25% of parameters in embeddings"
+    model:
+      embedding_ratio: 0.25
+    training:
+      output_dir: "./outputs/emb25"
+      run_name: "emb25"
+    
+  - name: emb35
+    description: "35% of parameters in embeddings (baseline)"
+    model:
+      embedding_ratio: 0.35
+    training:
+      output_dir: "./outputs/emb35"
+      run_name: "emb35"
+    
+  - name: emb45
+    description: "45% of parameters in embeddings"
+    model:
+      embedding_ratio: 0.45
+    training:
+      output_dir: "./outputs/emb45"
+      run_name: "emb45"
+
+# Shared settings for all experiments
+training:
+  total_tokens: 50_000_000
+  batch_size: 256
+  eval_steps: 1000
+  save_steps: 5000
+  early_stopping_threshold: 0.5
+
+evaluation:
+  metrics:
+    - "perplexity"
+    - "smallbench_accuracy"
+  profile_latency: true
+  profile_memory: true
