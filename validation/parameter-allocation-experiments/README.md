@@ -16,13 +16,26 @@ Our goal is to identify Pareto-efficient configurations that maximize quality pe
 parameter-allocation-experiments/
 ├── configs/              # Experiment configuration files
 ├── data/                 # Training and evaluation datasets
-├── scripts/              # Data processing and analysis scripts
+│   ├── wikitext-2/      # Raw WikiText-2 data
+│   ├── lm_tokenized/    # Preprocessed training data
+│   └── smallbench/      # SmallBench evaluation tasks
+├── scripts/              # Data processing, training, and evaluation scripts
+│   ├── download_*.py    # Data download scripts
+│   ├── preprocess_lm.py # Tokenization and preprocessing
+│   ├── eval_smallbench.py       # SmallBench evaluation
+│   ├── run_evaluation.py        # Comprehensive evaluation
+│   ├── aggregate_results.py     # Results aggregation
+│   └── generate_plots.py        # Visualization
 ├── src/
-│   ├── models/          # Model implementations
-│   └── tests/           # Unit tests
+│   ├── models/          # Model implementations (transformer, SwiGLU)
+│   ├── eval/            # Evaluation framework (perplexity, profiling, metrics)
+│   ├── utils/           # Training utilities (data, checkpointing, determinism)
+│   └── train.py         # Training harness
+├── tests/               # Unit tests and integration tests
 ├── logs/                # Training logs and metrics
 ├── checkpoints/         # Model checkpoints
-└── reports/             # Results and visualizations
+├── results/             # Evaluation results (metrics.json, summary.md)
+└── reports/             # Final analysis and visualizations
 ```
 
 ## Setup
@@ -109,7 +122,57 @@ python run_experiment.py \
     --checkpoint auto
 ```
 
-### 3. Run Parameter Allocation Experiments
+### 3. Evaluate a Trained Model
+
+After training, evaluate your model with the comprehensive evaluation suite:
+
+**Full evaluation (perplexity + SmallBench + profiling):**
+```bash
+python scripts/run_evaluation.py \
+    --checkpoint checkpoints/best_model.pt \
+    --data-dir data/lm_tokenized \
+    --output-dir results/exp_001 \
+    --experiment-name emb35_glu266
+```
+
+**Quick evaluation (skip expensive operations):**
+```bash
+python scripts/run_evaluation.py \
+    --checkpoint checkpoints/best_model.pt \
+    --data-dir data/lm_tokenized \
+    --output-dir results/quick_test \
+    --skip-smallbench \
+    --skip-throughput \
+    --max-eval-batches 50
+```
+
+**Evaluate only on SmallBench:**
+```bash
+python scripts/eval_smallbench.py \
+    --checkpoint checkpoints/best_model.pt \
+    --data-dir data/smallbench \
+    --tokenizer data/lm_tokenized/tokenizer.json \
+    --output results/smallbench.json
+```
+
+**Evaluation outputs:**
+```
+results/exp_001/
+├── metrics.json              # Standardized metrics (40+ fields)
+├── summary.md                # Human-readable summary
+├── smallbench_results.json   # SmallBench task results
+├── latency_results.json      # Latency profiling (batch=1, seq=128/512)
+└── throughput_results.json   # Throughput profiling
+```
+
+**Metrics included:**
+- **Perplexity**: Dev/test set perplexity
+- **SmallBench**: 4 tasks (sentiment, NLI, QA, paraphrase)
+- **Latency**: Inference latency at batch=1, seq=128/512 (ms)
+- **Throughput**: Tokens processed per second
+- **Memory**: GPU memory usage (MB)
+
+### 4. Run Parameter Allocation Experiments
 
 **Embedding ratio sweep (25%, 35%, 45%):**
 ```bash
@@ -141,30 +204,100 @@ Or use Makefile:
 make train-glu-sweep
 ```
 
-### 4. Generate Reports
+### 5. Analyze Results Across Experiments
 
+After running multiple experiments, aggregate and visualize results:
+
+**Aggregate metrics from all runs:**
 ```bash
-# Aggregate results from all experiments
 python scripts/aggregate_results.py \
     --log_dir logs \
-    --output results_summary.csv
+    --output results/results_summary.csv
+```
 
-# Generate plots
+**Generate visualizations:**
+```bash
 python scripts/generate_plots.py \
-    --input results_summary.csv \
+    --input results/results_summary.csv \
     --output_dir reports/figures
+```
 
-# Or use Makefile
+**Or use Makefile shortcuts:**
+```bash
+# Run all analysis
 make reports
+
+# Individual targets
+make aggregate  # Aggregate results to CSV
+make plots      # Generate visualizations
+```
+
+**Generated plots:**
+- Perplexity vs embedding ratio
+- Perplexity vs GLU expansion
+- Pareto frontier (compute vs quality)
+- Training curves comparison
+- SmallBench task performance
+
+## Complete Workflow
+
+The complete experimental workflow from data preparation to results:
+
+```bash
+# 1. Setup and data preparation
+make setup
+make data
+
+# 2. Run experiments (parallel execution)
+for exp in emb25 emb35 emb45; do
+    python run_experiment.py --config configs/embed_ratio.yaml --exp $exp &
+done
+wait
+
+# 3. Evaluate each trained model
+for checkpoint in checkpoints/emb*/best_model.pt; do
+    exp_name=$(basename $(dirname $checkpoint))
+    python scripts/run_evaluation.py \
+        --checkpoint $checkpoint \
+        --data-dir data/lm_tokenized \
+        --output-dir results/$exp_name \
+        --experiment-name $exp_name &
+done
+wait
+
+# 4. Aggregate and visualize results
+python scripts/aggregate_results.py --log_dir results --output results_summary.csv
+python scripts/generate_plots.py --input results_summary.csv --output_dir reports/figures
+
+# 5. Review results
+cat reports/figures/RESULTS.md
 ```
 
 ## Experiment Details
 
-- **Total Parameters**: 10M (fixed)
-- **Vocabulary Size**: 16,000 tokens
-- **Training Data**: ~50M tokens (WikiText-2 or WMT subset)
-- **Evaluation**: Perplexity (primary), SmallBench accuracy (secondary)
-- **Early Stopping**: Kill if dev PPL ≥0.5 worse than baseline for 1M tokens
+### Model Configuration
+- **Total Parameters**: 10M (fixed across all experiments)
+- **Vocabulary Size**: 16,000 tokens (BPE)
+- **Architecture**: Pre-norm transformer with SwiGLU activation
+- **Parameter Allocation**: Automatic computation to meet ±0.5% tolerance
+
+### Training
+- **Data**: ~50M tokens (WikiText-2)
+- **Optimizer**: AdamW with cosine LR schedule + warmup
+- **Mixed Precision**: FP16 with gradient scaling
+- **Checkpointing**: Auto-save and resume support
+- **Early Stopping**: Kill if dev PPL ≥0.5 worse for 1M tokens
+
+### Evaluation Metrics
+- **Perplexity**: Dev/test set perplexity (primary metric)
+- **SmallBench**: 4-task benchmark for capability assessment
+  - Sentiment classification (SST-2)
+  - Natural language inference (RTE)
+  - Question answering (BoolQ)
+  - Paraphrase detection (MRPC)
+- **Latency**: Inference time at batch=1, seq=128/512
+- **Throughput**: Tokens processed per second
+- **Memory**: GPU memory consumption
 
 ## Results
 
