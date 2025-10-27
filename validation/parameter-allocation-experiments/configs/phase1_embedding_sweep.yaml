@@ -1,0 +1,111 @@
+# Phase 1 Ranking Runs: Embedding Ratio Sweep
+# Goal: Run to 5M tokens and identify top-1 embedding ratio
+# Kill rule: Stop if dev PPL ≥0.5 worse than baseline for 1M tokens
+
+defaults:
+  - base_config
+
+model:
+  total_params: 10_000_000
+  vocab_size: 16_000
+  glu_expansion: 2.66  # Use SLIM target for Phase 1
+
+experiments:
+  - name: phase1_emb25
+    description: "Phase 1: 25% embedding ratio"
+    model:
+      embedding_ratio: 0.25
+    training:
+      output_dir: "./outputs/phase1/emb25"
+      checkpoint_dir: "./checkpoints/phase1/emb25"
+      run_name: "phase1_emb25"
+      total_tokens: 5_000_000  # Phase 1: 5M tokens
+      max_steps: -1
+      eval_steps: 500   # Eval every 500 steps
+      save_steps: 2500  # Save every 2500 steps
+      logging_steps: 100
+      # Kill rule parameters
+      early_stopping_enabled: true
+      early_stopping_patience: 5  # Check every 5 evals
+      early_stopping_threshold: 0.5  # Kill if PPL 0.5 worse
+      early_stopping_min_tokens: 1_000_000  # Start checking after 1M tokens
+
+  - name: phase1_emb35
+    description: "Phase 1: 35% embedding ratio (baseline)"
+    model:
+      embedding_ratio: 0.35
+    training:
+      output_dir: "./outputs/phase1/emb35"
+      checkpoint_dir: "./checkpoints/phase1/emb35"
+      run_name: "phase1_emb35"
+      total_tokens: 5_000_000
+      max_steps: -1
+      eval_steps: 500
+      save_steps: 2500
+      logging_steps: 100
+      early_stopping_enabled: true
+      early_stopping_patience: 5
+      early_stopping_threshold: 0.5
+      early_stopping_min_tokens: 1_000_000
+
+  - name: phase1_emb45
+    description: "Phase 1: 45% embedding ratio"
+    model:
+      embedding_ratio: 0.45
+    training:
+      output_dir: "./outputs/phase1/emb45"
+      checkpoint_dir: "./checkpoints/phase1/emb45"
+      run_name: "phase1_emb45"
+      total_tokens: 5_000_000
+      max_steps: -1
+      eval_steps: 500
+      save_steps: 2500
+      logging_steps: 100
+      early_stopping_enabled: true
+      early_stopping_patience: 5
+      early_stopping_threshold: 0.5
+      early_stopping_min_tokens: 1_000_000
+
+# Shared settings for all Phase 1 experiments
+training:
+  batch_size: 256
+  gradient_accumulation_steps: 1
+  learning_rate: 3e-4
+  weight_decay: 0.01
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  max_grad_norm: 1.0
+
+  # Schedule
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.05
+
+  # Mixed precision
+  fp16: false
+  bf16: false
+  tf32: true
+
+  # Reproducibility
+  seed: 42
+
+evaluation:
+  eval_batch_size: 512
+  metrics:
+    - "perplexity"
+    - "loss"
+  # Skip expensive evaluation in Phase 1
+  skip_smallbench: true
+  skip_latency_profiling: true
+  skip_throughput_profiling: true
+
+logging:
+  use_wandb: false
+  use_tensorboard: true
+  log_level: "INFO"
+
+infrastructure:
+  device: "cuda"
+  n_gpu: 1
+
+paths:
+  data_dir: "./data/lm_tokenized"
