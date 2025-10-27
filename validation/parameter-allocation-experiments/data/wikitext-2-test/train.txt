@@ -1,0 +1,10 @@
+The quick brown fox jumps over the lazy dog.
+This is a test sentence for tokenizer training.
+Machine learning models require large amounts of training data.
+The transformer architecture revolutionized natural language processing.
+Language models learn to predict the next token in a sequence.
+Deep learning has enabled significant advances in AI.
+Neural networks consist of interconnected layers of artificial neurons.
+Attention mechanisms allow models to focus on relevant parts of input.
+Pre-training on large corpora improves downstream task performance.
+Transfer learning leverages knowledge from one task to improve another.
