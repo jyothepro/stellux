@@ -49,22 +49,112 @@ make setup
 
 ## Quick Start
 
-### Data Preparation
+### 1. Data Preparation
+
+Download and preprocess the training data:
+
+```bash
+# Download WikiText-2 dataset (~50M tokens)
+python scripts/download_wikitext.py --output data/wikitext-2
+
+# Train tokenizer and preprocess (16k vocab, BPE)
+python scripts/preprocess_lm.py \
+    --input data/wikitext-2 \
+    --vocab_size 16000 \
+    --output data/lm_tokenized
+
+# Download SmallBench evaluation tasks (optional)
+python scripts/download_smallbench.py --output data/smallbench
+```
+
+Or use the Makefile shortcut:
 ```bash
 make data
 ```
 
-### Run Experiments
-```bash
-# Embedding ratio sweep
-make train-embedding-sweep
+### 2. Run Training
 
-# GLU expansion sweep  
+**Basic training:**
+```bash
+python run_experiment.py --config configs/base_config.yaml
+```
+
+**With experiment selection:**
+```bash
+# Run specific experiment from config
+python run_experiment.py \
+    --config configs/embed_ratio.yaml \
+    --exp emb35
+```
+
+**LR range finder (find optimal learning rate):**
+```bash
+python run_experiment.py \
+    --config configs/base_config.yaml \
+    --lr-find
+```
+
+**Overfit sanity check:**
+```bash
+# Train on first 1024 tokens to verify training works
+python run_experiment.py \
+    --config configs/base_config.yaml \
+    --overfit-tokens 1024
+```
+
+**Resume from checkpoint:**
+```bash
+python run_experiment.py \
+    --config configs/base_config.yaml \
+    --checkpoint auto
+```
+
+### 3. Run Parameter Allocation Experiments
+
+**Embedding ratio sweep (25%, 35%, 45%):**
+```bash
+for exp in emb25 emb35 emb45; do
+    python run_experiment.py \
+        --config configs/embed_ratio.yaml \
+        --exp $exp &
+done
+wait
+```
+
+Or use Makefile:
+```bash
+make train-embedding-sweep
+```
+
+**GLU expansion sweep (2.0×, 2.66×, 3.0×, 4.0×):**
+```bash
+for exp in glu2x glu266x glu3x glu4x; do
+    python run_experiment.py \
+        --config configs/glu_expansion.yaml \
+        --exp $exp &
+done
+wait
+```
+
+Or use Makefile:
+```bash
 make train-glu-sweep
 ```
 
-### Generate Reports
+### 4. Generate Reports
+
 ```bash
+# Aggregate results from all experiments
+python scripts/aggregate_results.py \
+    --log_dir logs \
+    --output results_summary.csv
+
+# Generate plots
+python scripts/generate_plots.py \
+    --input results_summary.csv \
+    --output_dir reports/figures
+
+# Or use Makefile
 make reports
 ```
 
