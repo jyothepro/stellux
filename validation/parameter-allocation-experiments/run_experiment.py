@@ -67,26 +67,70 @@ def setup_environment(config: dict) -> None:
 
 def run_training(config: dict) -> None:
     """Run training with given configuration.
-    
+
     Args:
         config: Configuration dictionary
     """
     logger.info("Starting training with config:")
     logger.info(yaml.dump(config, default_flow_style=False))
-    
-    # TODO: Implement actual training logic
-    # This will be expanded in later milestones
-    logger.info("Training placeholder - to be implemented")
-    
-    # Placeholder for model initialization
-    # model = build_model(config)
-    
-    # Placeholder for data loading
-    # train_loader, val_loader = get_dataloaders(config)
-    
-    # Placeholder for training loop
-    # trainer = Trainer(model, config)
-    # trainer.train(train_loader, val_loader)
+
+    # Add src to path
+    sys.path.insert(0, str(Path(__file__).parent / "src"))
+
+    from models.lm import LanguageModel, ModelConfig, print_param_table
+    from train import Trainer
+    from utils.data import get_dataloaders
+
+    # Build model
+    model_config = ModelConfig(
+        vocab_size=config.get("vocab_size", 16_000),
+        total_params=config.get("total_params", 10_000_000),
+        embedding_ratio=config.get("embedding_ratio", 0.35),
+        glu_expansion=config.get("glu_expansion", 2.66),
+        n_heads=config.get("n_heads", 8),
+        max_seq_length=config.get("max_seq_length", 512),
+        dropout=config.get("dropout", 0.1),
+        tied_lm_head=config.get("tied_lm_head", True),
+    )
+
+    model = LanguageModel(model_config)
+    logger.info("Model initialized")
+    print_param_table(model)
+
+    # Load data
+    data_dir = config.get("data_dir", "./data/lm_tokenized")
+    batch_size = config.get("batch_size", 32)
+
+    train_loader, val_loader = get_dataloaders(
+        data_dir=data_dir,
+        batch_size=batch_size,
+        max_length=model_config.max_seq_length,
+    )
+
+    if train_loader is None:
+        logger.error("Failed to load training data")
+        return
+
+    # Create trainer
+    device = config.get("device", "cuda")
+    trainer = Trainer(
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        config=config,
+        device=device,
+    )
+
+    # Train
+    checkpoint_dir = config.get("checkpoint_dir", "checkpoints")
+    resume = config.get("resume_from_checkpoint", None)
+    overfit_tokens = config.get("overfit_tokens", None)
+
+    trainer.train(
+        checkpoint_dir=checkpoint_dir,
+        resume_from_checkpoint=resume,
+        overfit_tokens=overfit_tokens,
+    )
 
 
 def run_evaluation(config: dict) -> None:
@@ -140,6 +184,16 @@ def main():
         default='cuda' if torch.cuda.is_available() else 'cpu',
         help='Device to use (cuda/cpu)'
     )
+    parser.add_argument(
+        '--lr-find',
+        action='store_true',
+        help='Run LR range finder before training'
+    )
+    parser.add_argument(
+        '--overfit-tokens',
+        type=int,
+        help='Overfit on first N tokens (sanity check)'
+    )
     
     args = parser.parse_args()
     
@@ -160,6 +214,9 @@ def main():
     config['device'] = args.device
     if args.checkpoint:
         config['checkpoint'] = args.checkpoint
+    if args.overfit_tokens:
+        config['overfit_tokens'] = args.overfit_tokens
+    config['lr_find'] = args.lr_find
     
     # Setup environment
     setup_environment(config)
