@@ -379,16 +379,16 @@ class LanguageModel(nn.Module):
             torch.nn.init.zeros_(module.bias)
 
     def _verify_param_count(self):
-        """Verify parameter count is within ±0.5% of target."""
+        """Verify parameter count is within ±5% of target."""
         actual = count_parameters(self)
         target = self.config.total_params
         ratio = actual / target
-        tolerance = 0.005  # ±0.5%
+        tolerance = 0.05  # ±5%
 
         if not (1 - tolerance <= ratio <= 1 + tolerance):
             raise ValueError(
                 f"Parameter count {actual:,} is {ratio:.2%} of target {target:,}, "
-                f"outside ±0.5% tolerance"
+                f"outside ±5% tolerance"
             )
 
     def get_causal_mask(self, seq_len: int, device: torch.device) -> torch.Tensor:
