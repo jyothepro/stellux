@@ -477,7 +477,8 @@ def print_param_table(model: LanguageModel) -> None:
         block = model.blocks[0]
         attn_params = sum(p.numel() for p in block.attn.parameters())
         ffn_params = sum(p.numel() for p in block.ffn.parameters())
-        ln_params = sum(p.numel() for p in [block.ln1.parameters(), block.ln2.parameters()])
+        ln_params = (sum(p.numel() for p in block.ln1.parameters()) +
+                     sum(p.numel() for p in block.ln2.parameters()))
         per_layer_params = attn_params + ffn_params + ln_params
     else:
         attn_params = ffn_params = ln_params = per_layer_params = 0
