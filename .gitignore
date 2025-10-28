@@ -205,3 +205,25 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ML/AI Training artifacts
+*.pt
+*.pth
+*.bin
+*.ckpt
+*.safetensors
+checkpoints/
+logs/
+outputs/
+wandb/
+runs/
+
+# Large datasets
+data/
+*.arrow
+*.parquet
+*.jsonl
+
+# Experiment reports (generated)
+reports/
+results_summary.csv
