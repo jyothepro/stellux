@@ -1,0 +1,26 @@
+[
+  {
+    "exp_name": "phase1_emb45",
+    "status": "failed",
+    "elapsed_seconds": 2.649029016494751,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb45']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "ir: logs\nlogging:\n  log_level: INFO\n  use_tensorboard: true\n  use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.45\n  glu_expansion: 2.66\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/emb45\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/emb45\n  run_name: phase1_emb45\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:59:50,047 - __main__ - INFO - Model initialized\n2025-10-28 18:59:50,047 - __main__ - ERROR - Experiment failed: 'generator' object has no attribute 'numel'\n"
+  },
+  {
+    "exp_name": "phase1_emb35",
+    "status": "failed",
+    "elapsed_seconds": 2.6499788761138916,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb35']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "ir: logs\nlogging:\n  log_level: INFO\n  use_tensorboard: true\n  use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.35\n  glu_expansion: 2.66\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/emb35\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/emb35\n  run_name: phase1_emb35\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:59:50,050 - __main__ - INFO - Model initialized\n2025-10-28 18:59:50,050 - __main__ - ERROR - Experiment failed: 'generator' object has no attribute 'numel'\n"
+  },
+  {
+    "exp_name": "phase1_emb25",
+    "status": "failed",
+    "elapsed_seconds": 2.6530568599700928,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb25']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "ir: logs\nlogging:\n  log_level: INFO\n  use_tensorboard: true\n  use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.25\n  glu_expansion: 2.66\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/emb25\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/emb25\n  run_name: phase1_emb25\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:59:50,049 - __main__ - INFO - Model initialized\n2025-10-28 18:59:50,049 - __main__ - ERROR - Experiment failed: 'generator' object has no attribute 'numel'\n"
+  }
+]

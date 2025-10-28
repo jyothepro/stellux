@@ -1,0 +1,58 @@
+[
+  {
+    "exp_name": "phase1_emb25",
+    "status": "failed",
+    "elapsed_seconds": 3.141505479812622,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb25']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": " use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.25\n  glu_expansion: 2.66\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/emb25\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/emb25\n  run_name: phase1_emb25\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:55:51,372 - matplotlib.font_manager - INFO - generated new fontManager\n2025-10-28 18:55:52,226 - __main__ - ERROR - Experiment failed: Parameter count 9,720,864 is 97.21% of target 10,000,000, outside \u00b10.5% tolerance\n"
+  },
+  {
+    "exp_name": "phase1_emb45",
+    "status": "failed",
+    "elapsed_seconds": 3.150383710861206,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb45']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": " use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.45\n  glu_expansion: 2.66\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/emb45\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/emb45\n  run_name: phase1_emb45\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:55:51,360 - matplotlib.font_manager - INFO - generated new fontManager\n2025-10-28 18:55:52,216 - __main__ - ERROR - Experiment failed: Parameter count 9,720,864 is 97.21% of target 10,000,000, outside \u00b10.5% tolerance\n"
+  },
+  {
+    "exp_name": "phase1_emb35",
+    "status": "failed",
+    "elapsed_seconds": 3.288200855255127,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb35']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": " use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.35\n  glu_expansion: 2.66\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/emb35\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/emb35\n  run_name: phase1_emb35\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:55:51,462 - matplotlib.font_manager - INFO - generated new fontManager\n2025-10-28 18:55:52,315 - __main__ - ERROR - Experiment failed: Parameter count 9,720,864 is 97.21% of target 10,000,000, outside \u00b10.5% tolerance\n"
+  },
+  {
+    "exp_name": "phase1_glu3x",
+    "status": "failed",
+    "elapsed_seconds": 2.801382303237915,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu3x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "ce: cuda\n  n_gpu: 1\nlog_dir: logs\nlogging:\n  log_level: INFO\n  use_tensorboard: true\n  use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.35\n  glu_expansion: 3.0\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/glu3x\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/glu3x\n  run_name: phase1_glu3x\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:55:55,180 - __main__ - ERROR - Experiment failed: Parameter count 9,720,864 is 97.21% of target 10,000,000, outside \u00b10.5% tolerance\n"
+  },
+  {
+    "exp_name": "phase1_glu2x",
+    "status": "failed",
+    "elapsed_seconds": 2.8023202419281006,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu2x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "ce: cuda\n  n_gpu: 1\nlog_dir: logs\nlogging:\n  log_level: INFO\n  use_tensorboard: true\n  use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.35\n  glu_expansion: 2.0\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/glu2x\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/glu2x\n  run_name: phase1_glu2x\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:55:55,189 - __main__ - ERROR - Experiment failed: Parameter count 9,720,864 is 97.21% of target 10,000,000, outside \u00b10.5% tolerance\n"
+  },
+  {
+    "exp_name": "phase1_glu4x",
+    "status": "failed",
+    "elapsed_seconds": 2.8816728591918945,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu4x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "ce: cuda\n  n_gpu: 1\nlog_dir: logs\nlogging:\n  log_level: INFO\n  use_tensorboard: true\n  use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.35\n  glu_expansion: 4.0\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/glu4x\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/glu4x\n  run_name: phase1_glu4x\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:55:55,281 - __main__ - ERROR - Experiment failed: Parameter count 9,720,864 is 97.21% of target 10,000,000, outside \u00b10.5% tolerance\n"
+  },
+  {
+    "exp_name": "phase1_glu266x",
+    "status": "failed",
+    "elapsed_seconds": 2.9748411178588867,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu266x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "a\n  n_gpu: 1\nlog_dir: logs\nlogging:\n  log_level: INFO\n  use_tensorboard: true\n  use_wandb: false\nlr_find: false\nmodel:\n  embedding_ratio: 0.35\n  glu_expansion: 2.66\n  total_params: 10000000\n  vocab_size: 16000\npaths:\n  data_dir: ./data/lm_tokenized\ntraining:\n  adam_beta1: 0.9\n  adam_beta2: 0.999\n  batch_size: 256\n  bf16: false\n  checkpoint_dir: ./checkpoints/phase1/glu266x\n  early_stopping_enabled: true\n  early_stopping_min_tokens: 1000000\n  early_stopping_patience: 5\n  early_stopping_threshold: 0.5\n  eval_steps: 500\n  fp16: false\n  gradient_accumulation_steps: 1\n  learning_rate: 3e-4\n  logging_steps: 100\n  lr_scheduler_type: cosine\n  max_grad_norm: 1.0\n  max_steps: -1\n  output_dir: ./outputs/phase1/glu266x\n  run_name: phase1_glu266x\n  save_steps: 2500\n  seed: 42\n  tf32: true\n  total_tokens: 5000000\n  warmup_ratio: 0.05\n  weight_decay: 0.01\n\n2025-10-28 18:55:55,342 - __main__ - ERROR - Experiment failed: Parameter count 9,720,864 is 97.21% of target 10,000,000, outside \u00b10.5% tolerance\n"
+  }
+]

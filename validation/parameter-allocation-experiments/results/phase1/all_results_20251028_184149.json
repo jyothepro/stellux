@@ -1,0 +1,58 @@
+[
+  {
+    "exp_name": "phase1_emb35",
+    "status": "failed",
+    "elapsed_seconds": 1.494675874710083,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb35', '--verbose']' returned non-zero exit status 2.",
+    "stdout": "",
+    "stderr": "usage: run_experiment.py [-h] --config CONFIG [--exp EXP]\n                         [--mode {train,eval,both}] [--checkpoint CHECKPOINT]\n                         [--log-dir LOG_DIR] [--device DEVICE] [--lr-find]\n                         [--overfit-tokens OVERFIT_TOKENS]\nrun_experiment.py: error: unrecognized arguments: --verbose\n"
+  },
+  {
+    "exp_name": "phase1_emb25",
+    "status": "failed",
+    "elapsed_seconds": 1.5251176357269287,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb25', '--verbose']' returned non-zero exit status 2.",
+    "stdout": "",
+    "stderr": "usage: run_experiment.py [-h] --config CONFIG [--exp EXP]\n                         [--mode {train,eval,both}] [--checkpoint CHECKPOINT]\n                         [--log-dir LOG_DIR] [--device DEVICE] [--lr-find]\n                         [--overfit-tokens OVERFIT_TOKENS]\nrun_experiment.py: error: unrecognized arguments: --verbose\n"
+  },
+  {
+    "exp_name": "phase1_emb45",
+    "status": "failed",
+    "elapsed_seconds": 1.5148718357086182,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb45', '--verbose']' returned non-zero exit status 2.",
+    "stdout": "",
+    "stderr": "usage: run_experiment.py [-h] --config CONFIG [--exp EXP]\n                         [--mode {train,eval,both}] [--checkpoint CHECKPOINT]\n                         [--log-dir LOG_DIR] [--device DEVICE] [--lr-find]\n                         [--overfit-tokens OVERFIT_TOKENS]\nrun_experiment.py: error: unrecognized arguments: --verbose\n"
+  },
+  {
+    "exp_name": "phase1_glu266x",
+    "status": "failed",
+    "elapsed_seconds": 1.6074390411376953,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu266x', '--verbose']' returned non-zero exit status 2.",
+    "stdout": "",
+    "stderr": "usage: run_experiment.py [-h] --config CONFIG [--exp EXP]\n                         [--mode {train,eval,both}] [--checkpoint CHECKPOINT]\n                         [--log-dir LOG_DIR] [--device DEVICE] [--lr-find]\n                         [--overfit-tokens OVERFIT_TOKENS]\nrun_experiment.py: error: unrecognized arguments: --verbose\n"
+  },
+  {
+    "exp_name": "phase1_glu2x",
+    "status": "failed",
+    "elapsed_seconds": 1.6299738883972168,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu2x', '--verbose']' returned non-zero exit status 2.",
+    "stdout": "",
+    "stderr": "usage: run_experiment.py [-h] --config CONFIG [--exp EXP]\n                         [--mode {train,eval,both}] [--checkpoint CHECKPOINT]\n                         [--log-dir LOG_DIR] [--device DEVICE] [--lr-find]\n                         [--overfit-tokens OVERFIT_TOKENS]\nrun_experiment.py: error: unrecognized arguments: --verbose\n"
+  },
+  {
+    "exp_name": "phase1_glu4x",
+    "status": "failed",
+    "elapsed_seconds": 1.5553221702575684,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu4x', '--verbose']' returned non-zero exit status 2.",
+    "stdout": "",
+    "stderr": "usage: run_experiment.py [-h] --config CONFIG [--exp EXP]\n                         [--mode {train,eval,both}] [--checkpoint CHECKPOINT]\n                         [--log-dir LOG_DIR] [--device DEVICE] [--lr-find]\n                         [--overfit-tokens OVERFIT_TOKENS]\nrun_experiment.py: error: unrecognized arguments: --verbose\n"
+  },
+  {
+    "exp_name": "phase1_glu3x",
+    "status": "failed",
+    "elapsed_seconds": 1.60097074508667,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu3x', '--verbose']' returned non-zero exit status 2.",
+    "stdout": "",
+    "stderr": "usage: run_experiment.py [-h] --config CONFIG [--exp EXP]\n                         [--mode {train,eval,both}] [--checkpoint CHECKPOINT]\n                         [--log-dir LOG_DIR] [--device DEVICE] [--lr-find]\n                         [--overfit-tokens OVERFIT_TOKENS]\nrun_experiment.py: error: unrecognized arguments: --verbose\n"
+  }
+]
