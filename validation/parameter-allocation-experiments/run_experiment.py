@@ -21,25 +21,60 @@ logger = logging.getLogger(__name__)
 
 def load_config(config_path: str, experiment_name: Optional[str] = None) -> dict:
     """Load experiment configuration from YAML file.
-    
+
     Args:
         config_path: Path to YAML config file
         experiment_name: Optional experiment name to select specific config
-        
+
     Returns:
         Configuration dictionary
     """
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
-    
+
     if experiment_name and 'experiments' in config:
-        if experiment_name in config['experiments']:
-            base_config = config.copy()
-            base_config.update(config['experiments'][experiment_name])
+        experiments = config['experiments']
+
+        # Handle both dict format and list format
+        if isinstance(experiments, dict):
+            # Dict format: experiments are keys
+            if experiment_name in experiments:
+                base_config = config.copy()
+                base_config.update(experiments[experiment_name])
+                return base_config
+            else:
+                raise ValueError(f"Experiment '{experiment_name}' not found in config")
+        elif isinstance(experiments, list):
+            # List format: find experiment with matching 'name' field
+            experiment = None
+            for exp in experiments:
+                if exp.get('name') == experiment_name:
+                    experiment = exp
+                    break
+
+            if experiment is None:
+                available = [e.get('name') for e in experiments]
+                raise ValueError(
+                    f"Experiment '{experiment_name}' not found in config. "
+                    f"Available: {available}"
+                )
+
+            # Merge base config with experiment config
+            base_config = {k: v for k, v in config.items() if k != 'experiments'}
+
+            # Deep merge experiment-specific settings
+            for key in ['model', 'training', 'evaluation', 'logging']:
+                if key in experiment:
+                    if key in base_config:
+                        # Merge nested dicts
+                        base_config[key] = {**base_config.get(key, {}), **experiment[key]}
+                    else:
+                        base_config[key] = experiment[key]
+
             return base_config
         else:
-            raise ValueError(f"Experiment '{experiment_name}' not found in config")
-    
+            raise ValueError(f"Invalid experiments format: {type(experiments)}")
+
     return config
 
 
