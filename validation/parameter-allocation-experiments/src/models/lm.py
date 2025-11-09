@@ -446,10 +446,17 @@ class LanguageModel(nn.Module):
         # Compute loss if labels provided
         loss = None
         if labels is not None:
+            # Shift logits and labels for next-token prediction
+            # We predict token t+1 from tokens 0:t
+            shift_logits = logits[:, :-1, :].contiguous()  # [batch, seq_len-1, vocab]
+            shift_labels = labels[:, 1:].contiguous()      # [batch, seq_len-1]
+
+            # Use reduction='sum' so evaluation code can properly average over all tokens
             loss = F.cross_entropy(
-                logits.view(-1, self.config.vocab_size),
-                labels.view(-1),
+                shift_logits.view(-1, self.config.vocab_size),
+                shift_labels.view(-1),
                 ignore_index=-100,
+                reduction='sum',  # Sum instead of mean, let eval code do the averaging
             )
 
         return logits, loss

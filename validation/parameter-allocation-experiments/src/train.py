@@ -220,14 +220,19 @@ class Trainer:
         # Scheduler step
         self.scheduler.step()
 
-        # Compute perplexity
-        perplexity = torch.exp(loss).item()
+        # Compute average loss and perplexity
+        # Model returns sum of losses, need to divide by number of tokens
+        shift_labels = labels[:, 1:]  # Same shift as in model
+        num_tokens = ((shift_labels != -100) & (shift_labels != 0)).sum().item()
+
+        avg_loss = loss.item() / num_tokens if num_tokens > 0 else float('inf')
+        perplexity = math.exp(min(avg_loss, 20))  # Cap to avoid overflow
 
         # Get current LR
         current_lr = self.scheduler.get_last_lr()[0]
 
         metrics = {
-            "loss": loss.item(),
+            "loss": avg_loss,  # Return average loss, not sum
             "perplexity": perplexity,
             "lr": current_lr,
             "grad_norm": grad_norm.item(),
@@ -266,9 +271,13 @@ class Trainer:
             logits, loss = self.model(input_ids, labels=labels)
 
             # Accumulate loss
-            batch_size = input_ids.size(0)
-            total_loss += loss.item() * batch_size
-            total_tokens += batch_size
+            # Model returns sum of losses with reduction='sum'
+            # Count tokens the same way: shifted labels, excluding padding
+            shift_labels = labels[:, 1:]  # Same shift as in model
+            num_tokens = ((shift_labels != -100) & (shift_labels != 0)).sum().item()
+
+            total_loss += loss.item()  # loss is already a sum
+            total_tokens += num_tokens
 
         # Compute average metrics
         avg_loss = total_loss / total_tokens

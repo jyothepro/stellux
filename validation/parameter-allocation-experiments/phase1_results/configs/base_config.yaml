@@ -1,0 +1,97 @@
+# Base configuration for parameter allocation experiments
+# This file defines the schema and default values
+
+model:
+  architecture: "transformer"
+  total_params: 10_000_000
+  vocab_size: 16_000
+  max_seq_length: 512
+  n_layers: 12
+  n_heads: 8
+  dropout: 0.1
+  attention_dropout: 0.1
+  activation: "swiglu"
+  layer_norm_eps: 1e-6
+  tie_word_embeddings: true
+  position_embedding_type: "learned"
+  
+training:
+  batch_size: 256
+  gradient_accumulation_steps: 1
+  learning_rate: 3e-4
+  weight_decay: 0.01
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_epsilon: 1e-8
+  max_grad_norm: 1.0
+  
+  # Schedule
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.05
+  num_train_epochs: 1
+  max_steps: -1
+  
+  # Tokens
+  total_tokens: 50_000_000
+  eval_steps: 1000
+  save_steps: 5000
+  logging_steps: 100
+  
+  # Early stopping
+  early_stopping_patience: 5
+  early_stopping_threshold: 0.5  # Stop if dev PPL is this much worse than baseline
+  
+  # Mixed precision
+  fp16: false
+  bf16: false
+  tf32: true
+  
+  # Checkpointing
+  save_total_limit: 3
+  load_best_model_at_end: true
+  checkpoint_interval_minutes: 15
+  
+  # Reproducibility
+  seed: 42
+  data_seed: 42
+  
+evaluation:
+  eval_batch_size: 512
+  metrics:
+    - "perplexity"
+    - "loss"
+    - "smallbench_accuracy"
+  smallbench_tasks:
+    - "classification"
+    - "nli"
+    - "qa"
+  smallbench_max_samples: 500
+  
+  # Profiling
+  profile_latency: true
+  profile_memory: true
+  profile_batch_sizes: [1]
+  profile_seq_lengths: [128, 512]
+  
+logging:
+  use_wandb: false
+  use_tensorboard: true
+  wandb_project: "parameter-allocation"
+  wandb_entity: null
+  tensorboard_dir: "./logs"
+  log_level: "INFO"
+  report_to: ["tensorboard"]
+  
+infrastructure:
+  device: "cuda"
+  n_gpu: 1
+  local_rank: -1
+  distributed_type: "NO"
+  gradient_checkpointing: false
+  
+paths:
+  data_dir: "./data"
+  output_dir: "./outputs"
+  checkpoint_dir: "./checkpoints"
+  cache_dir: "./cache"
+  tokenizer_path: null  # Will be set after training

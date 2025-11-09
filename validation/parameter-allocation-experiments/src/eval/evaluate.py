@@ -70,14 +70,21 @@ def evaluate_perplexity(
             continue
 
         # Accumulate loss
-        # Weight by number of tokens (not padding)
+        # The model returns sum of losses with reduction='sum'
+        # We need to count tokens the same way: shifted labels, excluding ignore_index
         if labels is not None:
-            # Count non-padding tokens (assuming 0 is padding)
-            non_pad_tokens = (labels != 0).sum().item()
-        else:
-            non_pad_tokens = input_ids.numel()
+            # Count tokens in shifted labels (model predicts token t+1 from tokens 0:t)
+            # So we lose 1 token per sequence due to shifting
+            shift_labels = labels[:, 1:]  # Same shift as in model
 
-        total_loss += loss.item() * non_pad_tokens
+            # Count non-padding tokens (ignore_index=-100 in cross_entropy)
+            # Also ignore 0 if it's used as padding in the data
+            non_pad_tokens = ((shift_labels != -100) & (shift_labels != 0)).sum().item()
+        else:
+            # If no labels, count all tokens minus 1 per sequence (due to shift)
+            non_pad_tokens = input_ids[:, 1:].numel()
+
+        total_loss += loss.item()  # loss is already a sum, don't multiply
         total_tokens += non_pad_tokens
         num_batches += 1
 
