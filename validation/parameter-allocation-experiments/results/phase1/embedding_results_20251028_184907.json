@@ -1,0 +1,26 @@
+[
+  {
+    "exp_name": "phase1_emb35",
+    "status": "failed",
+    "elapsed_seconds": 1.5052142143249512,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb35']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "2025-10-28 18:49:05,577 - __main__ - ERROR - Failed to load config: Experiment 'phase1_emb35' not found in config\n"
+  },
+  {
+    "exp_name": "phase1_emb25",
+    "status": "failed",
+    "elapsed_seconds": 1.537405252456665,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb25']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "2025-10-28 18:49:05,581 - __main__ - ERROR - Failed to load config: Experiment 'phase1_emb25' not found in config\n"
+  },
+  {
+    "exp_name": "phase1_emb45",
+    "status": "failed",
+    "elapsed_seconds": 1.4876048564910889,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_embedding_sweep.yaml', '--exp', 'phase1_emb45']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "2025-10-28 18:49:07,067 - __main__ - ERROR - Failed to load config: Experiment 'phase1_emb45' not found in config\n"
+  }
+]

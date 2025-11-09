@@ -1,0 +1,34 @@
+[
+  {
+    "exp_name": "phase1_glu266x",
+    "status": "failed",
+    "elapsed_seconds": 1.5024945735931396,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu266x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "2025-10-28 18:49:08,574 - __main__ - ERROR - Failed to load config: Experiment 'phase1_glu266x' not found in config\n"
+  },
+  {
+    "exp_name": "phase1_glu2x",
+    "status": "failed",
+    "elapsed_seconds": 1.5354042053222656,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu2x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "2025-10-28 18:49:08,579 - __main__ - ERROR - Failed to load config: Experiment 'phase1_glu2x' not found in config\n"
+  },
+  {
+    "exp_name": "phase1_glu3x",
+    "status": "failed",
+    "elapsed_seconds": 1.5901010036468506,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu3x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "2025-10-28 18:49:10,165 - __main__ - ERROR - Failed to load config: Experiment 'phase1_glu3x' not found in config\n"
+  },
+  {
+    "exp_name": "phase1_glu4x",
+    "status": "failed",
+    "elapsed_seconds": 1.5817914009094238,
+    "error": "Command '['/home/ubuntu/stellux/validation/parameter-allocation-experiments/venv/bin/python', 'run_experiment.py', '--config', 'configs/phase1_glu_sweep.yaml', '--exp', 'phase1_glu4x']' returned non-zero exit status 1.",
+    "stdout": "",
+    "stderr": "2025-10-28 18:49:10,169 - __main__ - ERROR - Failed to load config: Experiment 'phase1_glu4x' not found in config\n"
+  }
+]

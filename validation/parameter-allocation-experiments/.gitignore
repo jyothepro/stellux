@@ -1,0 +1,10 @@
+checkpoints/
+*.pt
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.swp
+outputs/
+logs/
+*.tar.gz

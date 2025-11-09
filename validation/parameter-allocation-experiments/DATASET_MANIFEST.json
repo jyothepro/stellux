@@ -1,0 +1,155 @@
+{
+  "manifest_version": "1.0",
+  "created_date": "2024-10-27",
+  "project": "Parameter Allocation Experiments for 10M-Parameter LMs",
+  "description": "Dataset manifest for language model pretraining and evaluation experiments",
+
+  "pretraining_corpus": {
+    "name": "WikiText-2-Raw-v1",
+    "source": "HuggingFace Datasets",
+    "dataset_id": "wikitext",
+    "config": "wikitext-2-raw-v1",
+    "license": "CC BY-SA 3.0",
+    "url": "https://huggingface.co/datasets/wikitext",
+    "description": "Raw WikiText-2 dataset containing ~50M tokens from verified Wikipedia articles",
+    "purpose": "Language model pretraining",
+    "splits": {
+      "train": {
+        "description": "Training split for pretraining",
+        "estimated_tokens": "~2M tokens",
+        "estimated_examples": "~36K lines"
+      },
+      "validation": {
+        "description": "Validation split for monitoring training",
+        "estimated_tokens": "~200K tokens",
+        "estimated_examples": "~4K lines"
+      },
+      "test": {
+        "description": "Test split for final evaluation",
+        "estimated_tokens": "~200K tokens",
+        "estimated_examples": "~4K lines"
+      }
+    },
+    "preprocessing": {
+      "tokenizer": "BPE (Byte-Pair Encoding)",
+      "vocab_size": 16000,
+      "special_tokens": ["[PAD]", "[UNK]", "[CLS]", "[SEP]", "[MASK]", "[BOS]", "[EOS]"],
+      "max_sequence_length": 512,
+      "normalization": "None (raw text preserved)"
+    },
+    "contamination_prevention": "SmallBench tasks are excluded from pretraining data"
+  },
+
+  "evaluation_benchmarks": {
+    "name": "SmallBench",
+    "description": "Curated set of small benchmark tasks for quick capability evaluation",
+    "purpose": "Extrinsic evaluation of language understanding capabilities",
+    "total_tasks": 4,
+    "total_estimated_examples": "~1685",
+    "tasks": [
+      {
+        "task_name": "sentiment",
+        "dataset": "sst2",
+        "source": "Stanford Sentiment Treebank",
+        "license": "Research use",
+        "url": "https://huggingface.co/datasets/sst2",
+        "task_type": "binary_classification",
+        "description": "Binary sentiment classification (positive/negative)",
+        "split": "validation",
+        "max_samples": 500,
+        "metric": "accuracy"
+      },
+      {
+        "task_name": "nli",
+        "dataset": "glue/rte",
+        "source": "GLUE Benchmark - Recognizing Textual Entailment",
+        "license": "Research use",
+        "url": "https://huggingface.co/datasets/glue",
+        "task_type": "natural_language_inference",
+        "description": "Textual entailment detection",
+        "split": "validation",
+        "max_samples": 277,
+        "metric": "accuracy"
+      },
+      {
+        "task_name": "qa",
+        "dataset": "boolq",
+        "source": "BoolQ Dataset",
+        "license": "CC BY-SA 3.0",
+        "url": "https://huggingface.co/datasets/boolq",
+        "task_type": "boolean_question_answering",
+        "description": "Yes/no question answering",
+        "split": "validation",
+        "max_samples": 500,
+        "metric": "accuracy"
+      },
+      {
+        "task_name": "paraphrase",
+        "dataset": "glue/mrpc",
+        "source": "GLUE Benchmark - Microsoft Research Paraphrase Corpus",
+        "license": "Research use",
+        "url": "https://huggingface.co/datasets/glue",
+        "task_type": "paraphrase_detection",
+        "description": "Semantic equivalence detection",
+        "split": "validation",
+        "max_samples": 408,
+        "metric": "accuracy"
+      }
+    ]
+  },
+
+  "data_pipeline": {
+    "scripts": {
+      "download_pretraining": "scripts/download_wikitext.py",
+      "preprocess_lm": "scripts/preprocess_lm.py",
+      "download_evaluation": "scripts/download_smallbench.py"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "action": "Download WikiText-2",
+        "command": "python scripts/download_wikitext.py --output data/wikitext-2"
+      },
+      {
+        "step": 2,
+        "action": "Train tokenizer and preprocess",
+        "command": "python scripts/preprocess_lm.py --input data/wikitext-2 --vocab_size 16000 --output data/lm_tokenized"
+      },
+      {
+        "step": 3,
+        "action": "Download SmallBench",
+        "command": "python scripts/download_smallbench.py --output data/smallbench"
+      }
+    ]
+  },
+
+  "reproducibility": {
+    "random_seed": 42,
+    "tokenizer_hash": "Generated during preprocessing and saved to tokenization_stats.json",
+    "data_version": "1.0",
+    "notes": [
+      "All datasets are downloaded from HuggingFace Datasets hub",
+      "Tokenizer is trained deterministically with fixed seed",
+      "SmallBench tasks use validation splits to avoid test set contamination",
+      "Raw text is preserved without normalization to maintain data integrity"
+    ]
+  },
+
+  "usage_notes": {
+    "pretraining_corpus_size": "Target: ~50M tokens for 10M parameter experiments",
+    "evaluation_frequency": "Every 1000 training steps",
+    "contamination_check": "SmallBench tasks must not appear in pretraining data",
+    "data_storage": {
+      "wikitext-2": "~100MB compressed",
+      "lm_tokenized": "~200MB after tokenization",
+      "smallbench": "~50MB total",
+      "total_estimated": "~350MB"
+    }
+  },
+
+  "citations": {
+    "wikitext": "@article{merity2016pointer, title={Pointer sentinel mixture models}, author={Merity, Stephen and Xiong, Caiming and Bradbury, James and Socher, Richard}, journal={arXiv preprint arXiv:1609.07843}, year={2016}}",
+    "glue": "@inproceedings{wang2018glue, title={{GLUE}: A Multi-Task Benchmark and Analysis Platform for Natural Language Understanding}, author={Wang, Alex and Singh, Amanpreet and Michael, Julian and Hill, Felix and Levy, Omer and Bowman, Samuel R}, booktitle={ICLR}, year={2019}}",
+    "boolq": "@inproceedings{clark2019boolq, title={BoolQ: Exploring the Surprising Difficulty of Natural Yes/No Questions}, author={Clark, Christopher and Lee, Kenton and Chang, Ming-Wei and Kwiatkowski, Tom and Collins, Michael and Toutanova, Kristina}, booktitle={NAACL}, year={2019}}"
+  }
+}
