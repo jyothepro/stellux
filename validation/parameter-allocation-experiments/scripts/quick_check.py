@@ -157,6 +157,7 @@ def main():
         logger.info("")
 
     # Check for duplicates
+    dup_stats = {}
     if train_path.exists() and val_path.exists():
         logger.info("=== Data Leakage Check ===")
         dup_stats = check_duplicates(train_path, val_path)
@@ -185,7 +186,7 @@ def main():
     if val_stats and val_stats['est_tokens'] < 50000:
         issues.append("Val set is too small (< 50k tokens)")
 
-    if 'num_duplicates' in dup_stats and dup_stats['num_duplicates'] > 0:
+    if dup_stats and dup_stats.get('num_duplicates', 0) > 0:
         issues.append("Data leakage detected (duplicates found)")
 
     if issues:
